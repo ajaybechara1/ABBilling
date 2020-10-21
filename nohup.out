@@ -1,0 +1,53 @@
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+[21/Oct/2020 16:54:08] "GET /api/customercompanydetail/ HTTP/1.1" 200 185
+[21/Oct/2020 16:54:08] "GET /api/truckdetail/ HTTP/1.1" 200 163
+[21/Oct/2020 16:54:08] "GET /api/citydetail/ HTTP/1.1" 200 154
+[21/Oct/2020 16:54:08] "GET /api/packagedetail/ HTTP/1.1" 200 161
+[21/Oct/2020 16:54:08] "GET /api/ordertype/ HTTP/1.1" 200 310
+[21/Oct/2020 16:54:51] "GET / HTTP/1.1" 200 1124
+Not Found: /css/ionicons.min.css
+[21/Oct/2020 16:54:51] "GET /static/js/main.839dae74.js HTTP/1.1" 304 0
+[21/Oct/2020 16:54:51] "GET /static/css/main.dbc4d89d.css HTTP/1.1" 304 0
+Not Found: /main.e6c6bea2.css
+[21/Oct/2020 16:54:51] "GET /css/ionicons.min.css HTTP/1.1" 404 2206
+[21/Oct/2020 16:54:51] "GET /main.e6c6bea2.css HTTP/1.1" 404 2197
+Not Found: /favicon.png
+[21/Oct/2020 16:54:52] "GET /static/js/0.7911b580.chunk.js HTTP/1.1" 304 0
+[21/Oct/2020 16:54:52] "GET /static/media/sign.adf5846b.jpg HTTP/1.1" 200 169131
+Not Found: /service-worker.js
+[21/Oct/2020 16:54:52] "GET /service-worker.js HTTP/1.1" 404 2197
+[21/Oct/2020 16:57:27] "GET / HTTP/1.1" 200 1124
+Not Found: /css/ionicons.min.css
+[21/Oct/2020 16:57:27] "GET /css/ionicons.min.css HTTP/1.1" 404 2206
+[21/Oct/2020 16:57:27] "GET /static/css/main.dbc4d89d.css HTTP/1.1" 304 0
+Not Found: /main.e6c6bea2.css
+[21/Oct/2020 16:57:27] "GET /main.e6c6bea2.css HTTP/1.1" 404 2197
+[21/Oct/2020 16:57:27] "GET /static/js/main.839dae74.js HTTP/1.1" 304 0
+[21/Oct/2020 16:57:27] "GET /static/js/0.7911b580.chunk.js HTTP/1.1" 304 0
+[21/Oct/2020 16:57:28] "GET /static/media/sign.adf5846b.jpg HTTP/1.1" 304 0
+Not Found: /service-worker.js
+[21/Oct/2020 16:57:28] "GET /service-worker.js HTTP/1.1" 404 2197
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+[21/Oct/2020 17:06:36] "GET / HTTP/1.1" 200 1124
+Not Found: /css/ionicons.min.css
+[21/Oct/2020 17:06:36] "GET /static/js/main.839dae74.js HTTP/1.1" 304 0
+[21/Oct/2020 17:06:36] "GET /css/ionicons.min.css HTTP/1.1" 404 2206
+[21/Oct/2020 17:06:36] "GET /static/css/main.dbc4d89d.css HTTP/1.1" 200 4363
+Not Found: /main.e6c6bea2.css
+[21/Oct/2020 17:06:36] "GET /main.e6c6bea2.css HTTP/1.1" 404 2197
+Not Found: /css/ionicons.min.css
+[21/Oct/2020 17:06:36] "GET /css/ionicons.min.css HTTP/1.1" 404 2206
+Not Found: /main.e6c6bea2.css
+[21/Oct/2020 17:06:36] "GET /main.e6c6bea2.css HTTP/1.1" 404 2197
+Not Found: /favicon.png
+[21/Oct/2020 17:06:36] "GET /favicon.png HTTP/1.1" 404 2179
+[21/Oct/2020 17:06:36] "GET /static/js/0.7911b580.chunk.js HTTP/1.1" 304 0
+[21/Oct/2020 17:06:37] "GET /static/media/sign.adf5846b.jpg HTTP/1.1" 200 169131
+Not Found: /service-worker.js
+[21/Oct/2020 17:06:37] "GET /service-worker.js HTTP/1.1" 404 2197

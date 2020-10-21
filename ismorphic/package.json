@@ -2,7 +2,6 @@
   "name": "isomorphic",
   "version": "2.4.0",
   "private": true,
-  "homepage": "https://ajaybechara1.github.io/ABBilling",
   "dependencies": {
     "-": "0.0.1",
     "antd": "^3.0.3",
