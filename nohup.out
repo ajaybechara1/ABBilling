@@ -51,3 +51,29 @@ Not Found: /favicon.png
 [21/Oct/2020 17:06:37] "GET /static/media/sign.adf5846b.jpg HTTP/1.1" 200 169131
 Not Found: /service-worker.js
 [21/Oct/2020 17:06:37] "GET /service-worker.js HTTP/1.1" 404 2197
+Traceback (most recent call last):
+  File "F:\Billing\manage.py", line 11, in main
+    from django.core.management import execute_from_command_line
+ModuleNotFoundError: No module named 'django'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "F:\Billing\manage.py", line 22, in <module>
+    main()
+  File "F:\Billing\manage.py", line 13, in main
+    raise ImportError(
+ImportError: Couldn't import Django. Are you sure it's installed and available on your PYTHONPATH environment variable? Did you forget to activate a virtual environment?
+Traceback (most recent call last):
+  File "F:\Billing\manage.py", line 11, in main
+    from django.core.management import execute_from_command_line
+ModuleNotFoundError: No module named 'django'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "F:\Billing\manage.py", line 22, in <module>
+    main()
+  File "F:\Billing\manage.py", line 13, in main
+    raise ImportError(
+ImportError: Couldn't import Django. Are you sure it's installed and available on your PYTHONPATH environment variable? Did you forget to activate a virtual environment?

@@ -86,6 +86,7 @@
     "rheostat": "^2.1.1",
     "rich-marker": "^0.0.1",
     "save-dev": "0.0.1-security",
+    "serve": "^11.3.2",
     "styled-components": "^2.2.1",
     "styled-theme": "^0.3.3",
     "uppy": "0.18.0"

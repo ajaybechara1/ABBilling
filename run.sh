@@ -1,7 +1,9 @@
-source "./venv/bin/activate"
-nohup python manage.py runserver &
+venv\Scripts\activate
+start /B python manage.py runserver > dummy.txt
+
 
 cd ismorphic
-nohup serve -s build &
+start /B serve -s build > dummy.txt
 
-ll
+
+dir
