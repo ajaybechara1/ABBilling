@@ -257,9 +257,24 @@ export default class InputField extends Component {
             body: JSON.stringify(data)
         }).then((response) => {
             console.log(response)
-            console.log('Successfully Order Created')
+            if(response['status'] == 201){
+                console.log('Successfully Order Created')
+                document.getElementById("submit_button").style.background = "green"
+                document.getElementById("submit_button").childNodes[0].innerHTML = "Added"
+                setTimeout( () => {
+                    document.getElementById("submit_button").style.background = "blue"
+                    document.getElementById("submit_button").childNodes[0].innerHTML = "Add Order"
+                }, 1500)
+            }else{
+                document.getElementById("submit_button").style.background = "red"
+                document.getElementById("submit_button").childNodes[0].innerHTML = "Fail"
+                document.getElementById("submit_button").disabled = "true"
+            }
         }).catch(function(error) {
             console.log('ERROR:', error)
+            document.getElementById("submit_button").style.background = "red"
+            document.getElementById("submit_button").childNodes[0].innerHTML = "Fail"
+            document.getElementById("submit_button").disabled = "true"
         })
     }
 
@@ -417,12 +432,12 @@ export default class InputField extends Component {
                       <Col span="3">
                         <span> Party </span>
                       </Col>
-                      <Select 
+                      <Select
                       showSearch
                       optionFilterProp="children"
-                      defaultValue="nill" 
-                      style={{ width: '80%' }} 
-                      name="company_name" 
+                      defaultValue="nill"
+                      style={{ width: '80%' }}
+                      name="company_name"
                       onChange={this.handle_change_company_name}
                       >
                         {
@@ -437,12 +452,12 @@ export default class InputField extends Component {
                       <Col span="3">
                         <span> Truck </span>
                       </Col>
-                      <Select 
+                      <Select
                       showSearch
                       optionFilterProp="children"
-                      defaultValue="nill" 
-                      style={{ width: '80%' }} 
-                      name="truck_number" 
+                      defaultValue="nill"
+                      style={{ width: '80%' }}
+                      name="truck_number"
                       onChange={this.handle_change_truck_number}>
                         {
                             this.state.TruckDetail.map(function(value, index){
@@ -456,12 +471,12 @@ export default class InputField extends Component {
                       <Col span="3">
                         <span> Pkg </span>
                       </Col>
-                      <Select 
+                      <Select
                       showSearch
                       optionFilterProp="children"
-                      defaultValue="40"  
-                      style={{ width: '80%' }} 
-                      name="package_size" 
+                      defaultValue="40"
+                      style={{ width: '80%' }}
+                      name="package_size"
                       onChange={this.handle_change_package_size}>
                         {
                             this.state.PackageDetail.map(function(value, index){
@@ -475,12 +490,12 @@ export default class InputField extends Component {
                       <Col span="3">
                         <span> From </span>
                       </Col>
-                      <Select 
+                      <Select
                       showSearch
                       optionFilterProp="children"
-                      defaultValue="nill" 
-                      style={{ width: '80%' }} 
-                      name="city_name" 
+                      defaultValue="nill"
+                      style={{ width: '80%' }}
+                      name="city_name"
                       onChange={this.handle_change_city_from}>
                         {
                             this.state.CityDetail.map(function(value, index){
@@ -494,12 +509,12 @@ export default class InputField extends Component {
                       <Col span="3">
                         <span> To </span>
                       </Col>
-                      <Select 
+                      <Select
                       showSearch
                       optionFilterProp="children"
-                      defaultValue="nill" 
-                      style={{ width: '80%' }} 
-                      name="city_name" 
+                      defaultValue="nill"
+                      style={{ width: '80%' }}
+                      name="city_name"
                       onChange={this.handle_change_city_to}>
                         {
                             this.state.CityDetail.map(function(value, index){
@@ -513,12 +528,12 @@ export default class InputField extends Component {
                       <Col span="3">
                         <span> Type </span>
                       </Col>
-                      <Select 
+                      <Select
                       showSearch
                       optionFilterProp="children"
-                      defaultValue="nill" 
-                      style={{ width: '80%' }} 
-                      name="order_type" 
+                      defaultValue="nill"
+                      style={{ width: '80%' }}
+                      name="order_type"
                       onChange={this.handle_change_order_type}>
                         {
                             this.state.OrderType.map(function(value, index){
@@ -535,7 +550,7 @@ export default class InputField extends Component {
                       <Col span="8">
                         <Input defaultValue="nill" size="large" style={{ width: 394 }} name="container_number" onChange={this.handleChangeInputValue_order_detail}/>
                       </Col>
-                    </InputGroup>                     
+                    </InputGroup>
 
                     <InputGroup size="large" style={{ marginBottom: '15px' }}>
                       <Col span="3">
@@ -557,7 +572,7 @@ export default class InputField extends Component {
                       <Col span="3">
                         <span> Date </span>
                       </Col>
-                      <DatePicker style={{ width: 300 }} 
+                      <DatePicker style={{ width: 300 }}
                       onChange={this.handleChangeDateValue}
                       defaultValue={moment(this.state.order_detail.order_date, dateFormat)}
                       />
@@ -569,15 +584,6 @@ export default class InputField extends Component {
                       </Col>
                       <Col span="8">
                         <Input defaultValue={0}  type="number" style={{ width: 300 }} name="freight" onChange={this.handleChangeInputValue_calculation}/>
-                      </Col>
-                    </InputGroup>
-
-                    <InputGroup size="large" style={{ marginBottom: '15px' }}>
-                      <Col span="3">
-                        <span> Overload </span>
-                      </Col>
-                      <Col span="8">
-                        <Input defaultValue={0} type="number" style={{ width: 300 }} name="overload" onChange={this.handleChangeInputValue_calculation}/>
                       </Col>
                     </InputGroup>
 
@@ -601,24 +607,6 @@ export default class InputField extends Component {
 
                     <InputGroup size="large" style={{ marginBottom: '15px' }}>
                       <Col span="3">
-                        <span> Diesel </span>
-                      </Col>
-                      <Col span="8">
-                        <Input defaultValue={0} type="number" style={{ width: 300 }} name="diesel" onChange={this.handleChangeInputValue_calculation}/>
-                      </Col>
-                    </InputGroup>
-
-                    <InputGroup size="large" style={{ marginBottom: '15px' }}>
-                      <Col span="3">
-                        <span> Tds </span>
-                      </Col>
-                      <Col span="8">
-                        <Input defaultValue={0} type="number" style={{ width: 300 }} name="tds" onChange={this.handleChangeInputValue_calculation}/>
-                      </Col>
-                    </InputGroup>
-
-                    <InputGroup size="large" style={{ marginBottom: '15px' }}>
-                      <Col span="3">
                         <span> Balance </span>
                       </Col>
                       <Col span="8">
@@ -626,7 +614,7 @@ export default class InputField extends Component {
                       </Col>
                     </InputGroup>
 
-                    <Button type="primary" style={margin, button_width} onClick={this.AddNewOrder}>
+                    <Button id="submit_button" type="primary" style={margin, button_width, {background: "blue"}} onClick={this.AddNewOrder}>
                       {"Add Order"}
                     </Button>
 
@@ -647,3 +635,32 @@ export default class InputField extends Component {
         );
     }
 }
+
+
+
+// <InputGroup size="large" style={{ marginBottom: '15px' }}>
+//   <Col span="3">
+//     <span> Overload </span>
+//   </Col>
+//   <Col span="8">
+//     <Input defaultValue={0} type="number" style={{ width: 300 }} name="overload" onChange={this.handleChangeInputValue_calculation}/>
+//   </Col>
+// </InputGroup>
+
+// <InputGroup size="large" style={{ marginBottom: '15px' }}>
+//   <Col span="3">
+//     <span> Diesel </span>
+//   </Col>
+//   <Col span="8">
+//     <Input defaultValue={0} type="number" style={{ width: 300 }} name="diesel" onChange={this.handleChangeInputValue_calculation}/>
+//   </Col>
+// </InputGroup>
+
+// <InputGroup size="large" style={{ marginBottom: '15px' }}>
+//   <Col span="3">
+//     <span> Tds </span>
+//   </Col>
+//   <Col span="8">
+//     <Input defaultValue={0} type="number" style={{ width: 300 }} name="tds" onChange={this.handleChangeInputValue_calculation}/>
+//   </Col>
+// </InputGroup>

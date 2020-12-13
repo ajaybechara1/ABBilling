@@ -69,7 +69,7 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
           )}
         /> */
         }
-
+ 
         <Route
           path="/auth0loginCallback"
           render={props => {

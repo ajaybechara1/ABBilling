@@ -13,6 +13,7 @@ router.register('ordertype', views.OrderTypeView)
 urlpatterns = [
 	path('add-new-order/', views.AddNewOrder),
 	path('filter-order/', views.FilterOrder),
+	path('generate-bill/', views.GenerateBill),
 	path('dummy_request/', views.dummy_request),
 	path('dummy_request2/', views.dummy_request2),
 	path('', include(router.urls))

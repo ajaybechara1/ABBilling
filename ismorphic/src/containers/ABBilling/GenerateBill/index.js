@@ -60,6 +60,7 @@ export default class InputField extends Component {
               diesel: 0,
               balance: 0,
               tds: 0,
+              party_gst: "",
           },
           nill_data: {
               company_name:"",
@@ -75,6 +76,12 @@ export default class InputField extends Component {
           CityDetail:[],
           PackageDetail:[],
           OrderType:[],
+          total_amount: 0,
+          total_liftoff: 0,
+          total_advanced: 0,
+          total_net_amount: 0,
+          total_freight: 0,
+          total_count: 0,
       }
 
 
@@ -107,6 +114,10 @@ export default class InputField extends Component {
       this.handleChangeOrderType = this.handleChangeOrderType.bind(this)
 
       this.filter_orders = this.filter_orders.bind(this)
+      this.generate_bill = this.generate_bill.bind(this)
+      this.delete_order = this.delete_order.bind(this)
+      this.filter_orders_aa = this.filter_orders_aa.bind(this)
+      this.handleChangeInputValue_gst = this.handleChangeInputValue_gst.bind(this)
 
   };
 
@@ -126,11 +137,11 @@ export default class InputField extends Component {
               if(data[index].company_name == "nill"){
                   this.setState({
                     order_detail : {
-                      ...this.state.order_detail, 
+                      ...this.state.order_detail,
                       company_name: data[index].url
                     },
                     nill_data : {
-                      ...this.state.nill_data, 
+                      ...this.state.nill_data,
                       company_name: data[index].url
                     }
                   });
@@ -149,11 +160,11 @@ export default class InputField extends Component {
               if(data[index].truck_number == "nill"){
                   this.setState({
                     order_detail : {
-                      ...this.state.order_detail, 
+                      ...this.state.order_detail,
                       truck_number: data[index].url
                     },
                     nill_data : {
-                      ...this.state.nill_data, 
+                      ...this.state.nill_data,
                       truck_number: data[index].url
                     }
                   });
@@ -172,12 +183,12 @@ export default class InputField extends Component {
               if(data[index].city_name == "nill"){
                   this.setState({
                     order_detail : {
-                      ...this.state.order_detail, 
+                      ...this.state.order_detail,
                       city_from: data[index].url,
                       city_to: data[index].url
                     },
                     nill_data : {
-                      ...this.state.nill_data, 
+                      ...this.state.nill_data,
                       city_from: data[index].url,
                       city_to: data[index].url
                     }
@@ -197,11 +208,11 @@ export default class InputField extends Component {
               if(data[index].package_size == "40"){
                   this.setState({
                     order_detail : {
-                      ...this.state.order_detail, 
+                      ...this.state.order_detail,
                       package_size: data[index].url
                     },
                     nill_data : {
-                      ...this.state.nill_data, 
+                      ...this.state.nill_data,
                       package_size: data[index].url
                     }
                   });
@@ -218,11 +229,11 @@ export default class InputField extends Component {
               if(data[index].order_type == "nill"){
                   this.setState({
                     order_detail : {
-                      ...this.state.order_detail, 
+                      ...this.state.order_detail,
                       order_type: data[index].url
                     },
                     nill_data : {
-                      ...this.state.nill_data, 
+                      ...this.state.nill_data,
                       order_type: data[index].url
                     }
                   });
@@ -231,7 +242,7 @@ export default class InputField extends Component {
 
           })
 
-      var today = new Date(); 
+      var today = new Date();
       today = this.getFormatedDate(today)
 
       var delayed_date = this.get_delayed_date_object(7)
@@ -239,7 +250,7 @@ export default class InputField extends Component {
 
       this.setState({
         bill_detail : {
-          ...this.state.order_detail, 
+          ...this.state.order_detail,
           bill_date: today,
           date_to: today,
           date_from: delayed_date
@@ -256,18 +267,18 @@ export default class InputField extends Component {
 
   getFormatedDate(date_obj){
     var dd = date_obj.getDate();
-    var mm = date_obj.getMonth()+1; 
+    var mm = date_obj.getMonth()+1;
     var yyyy = date_obj.getFullYear();
 
-    if(dd<10) 
+    if(dd<10)
     {
         dd='0'+dd;
-    } 
+    }
 
-    if(mm<10) 
+    if(mm<10)
     {
         mm='0'+mm;
-    } 
+    }
     return yyyy+'-'+mm+'-'+dd;
   }
 
@@ -309,7 +320,7 @@ export default class InputField extends Component {
           console.log('Successfully Order Created')
       }).catch(function(error) {
           console.log('ERROR:', error)
-      })    
+      })
   }
 
   filter_orders(e){
@@ -332,12 +343,93 @@ export default class InputField extends Component {
       }).then(response => response.json())
       .then(data => {
         this.setState({
-          order_list: data.order_list
+          order_list: data.order_list,
+          total_amount: data.total_amount,
+          total_liftoff: data.total_liftoff,
+          total_advanced: data.total_advanced,
+          total_net_amount: data.total_net_amount,
+          total_freight: data.total_freight,
+          total_count: data.total_count,
         })
       }).catch(function(error) {
         console.log('ERROR:', error)
       })
 
+  }
+
+  filter_orders_aa(){
+
+      var csrftoken = this.getCookie('csrftoken')
+      var url = `http://127.0.0.1:8000/api/filter-order/`;
+
+      var data = this.state.bill_detail;
+
+      fetch(url, {
+          method: 'POST',
+          headers: {
+              'Content-type': 'application/json',
+              'X-CSRFToken': csrftoken,
+          },
+          body: JSON.stringify(data)
+      }).then(response => response.json())
+      .then(data => {
+        this.setState({
+          order_list: data.order_list,
+          total_amount: data.total_amount,
+          total_liftoff: data.total_liftoff,
+          total_advanced: data.total_advanced,
+          total_net_amount: data.total_net_amount,
+          total_freight: data.total_freight,
+          total_count: data.total_count,
+        })
+      }).catch(function(error) {
+        console.log('ERROR:', error)
+      })
+  }
+
+  generate_bill(e){
+    e.preventDefault();
+
+    var csrftoken = this.getCookie('csrftoken')
+    var url = `http://127.0.0.1:8000/api/generate-bill/`;
+
+    var data = this.state.bill_detail;
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify(data)
+    }).then(response => response.json())
+    .then(data => {
+      console.log(data)
+      document.location.href = data["link"]
+    }).catch(function(error) {
+      console.log('ERROR:', error)
+    })
+  }
+
+  delete_order(e, object){
+    e.preventDefault();
+
+    var csrftoken = this.getCookie('csrftoken')
+    var url = "http://127.0.0.1:8000/api/billdetail/" + object.id + "/";
+
+    var data = this.state.bill_detail;
+
+    fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'Content-type': 'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify(data)
+    }).then(response => { response.json(); this.filter_orders_aa(); })
+    .catch(error => {
+      console.log('ERROR:', error)
+    })
   }
 
   handleChangeInputValue(evt) {
@@ -376,7 +468,7 @@ export default class InputField extends Component {
     const value = evt.target.value;
     this.setState({
       order_detail : {
-        ...this.state.order_detail, 
+        ...this.state.order_detail,
         [evt.target.name]: value
       }
     });
@@ -385,7 +477,7 @@ export default class InputField extends Component {
   handle_change_company_name(value) {
     this.setState({
       order_detail : {
-        ...this.state.order_detail, 
+        ...this.state.order_detail,
         company_name: value
       }
     });
@@ -394,7 +486,7 @@ export default class InputField extends Component {
   handle_change_truck_number(value) {
     this.setState({
       order_detail : {
-        ...this.state.order_detail, 
+        ...this.state.order_detail,
         truck_number: value
       }
     });
@@ -403,7 +495,7 @@ export default class InputField extends Component {
   handle_change_package_size(value) {
     this.setState({
       order_detail : {
-        ...this.state.order_detail, 
+        ...this.state.order_detail,
         package_size: value
       }
     });
@@ -412,7 +504,7 @@ export default class InputField extends Component {
   handle_change_city_from(value) {
     this.setState({
       order_detail : {
-        ...this.state.order_detail, 
+        ...this.state.order_detail,
         city_from: value
       }
     });
@@ -421,7 +513,7 @@ export default class InputField extends Component {
   handle_change_city_to(value) {
     this.setState({
       order_detail : {
-        ...this.state.order_detail, 
+        ...this.state.order_detail,
         city_to: value
       }
     });
@@ -430,7 +522,7 @@ export default class InputField extends Component {
   handle_change_order_type(value) {
     this.setState({
       order_detail : {
-        ...this.state.order_detail, 
+        ...this.state.order_detail,
         order_type: value
       }
     });
@@ -490,12 +582,32 @@ export default class InputField extends Component {
       })
   }
 
+  handleChangeGSTNumber(value){
+      this.setState({
+        bill_detail : {
+          ...this.state.bill_detail,
+          gst_number: value
+        }
+      })
+  }
+
+  handleChangeInputValue_gst(evt) {
+      var value = evt.target.value;
+
+      this.setState({
+          bill_detail: {
+              ...this.state.bill_detail,
+              [evt.target.name]: value
+          }
+      });
+  }
+
 
   // caculation
 
   handleChangeInputValue_calculation(evt){
     var value = evt.target.value;
-    
+
     if(value == ""){
       value = 0;
     }
@@ -545,11 +657,16 @@ export default class InputField extends Component {
 
 
     const columns = [
+      { title: 'Date', dataIndex: 'order_date', key: 'order_date' },
       { title: 'Party', dataIndex: 'company_name', key: 'company_name' },
       { title: 'Truck', dataIndex: 'truck_number', key: 'truck_number' },
       { title: 'From', dataIndex: 'city_from', key: 'city_from' },
       { title: 'To', dataIndex: 'city_to', key: 'city_to' },
       { title: 'Balance', dataIndex: 'balance', key: 'balance' },
+      { title: 'Action', key: 'id', render: (text, record) => (
+              <a id={record.id} onClick={(e) => this.delete_order(e, record) }>Delete</a>
+          ),
+      }
     ];
 
     const data = this.state.order_list;
@@ -576,7 +693,7 @@ export default class InputField extends Component {
                       <Col span="3">
                         <span> Date </span>
                       </Col>
-                      <DatePicker style={{ width: 300 }} 
+                      <DatePicker style={{ width: 300 }}
                       onChange={this.handleChangeDateValue}
                       defaultValue={moment(this.state.bill_detail.bill_date, dateFormat)}
                       />
@@ -597,7 +714,7 @@ export default class InputField extends Component {
                             this.state.CustomerCompanyDetail.map(function(value, index){
                                 return <Option value={value.url} >{value.company_name}</Option>;
                             })
-                        }                      
+                        }
                       </Select>
                     </InputGroup>
 
@@ -696,6 +813,15 @@ export default class InputField extends Component {
                        </Select>
                     </InputGroup>
 
+                    <InputGroup compact style={{ marginBottom: '15px' }}>
+                      <Col span="3">
+                        <span> Party GST </span>
+                      </Col>
+                      <Col span="16">
+                        <Input defaultValue=""  type="text" style={{ width: 300 }} name="party_gst" onChange={this.handleChangeInputValue_gst}/>
+                      </Col>
+                    </InputGroup>
+
                     <InputGroup size="large" style={{ marginBottom: '15px' }}>
                       <Col span="3">
                         <span> Date From - Date To </span>
@@ -708,12 +834,15 @@ export default class InputField extends Component {
                             ]}
                           format={dateFormat}
                           onChange={this.handleChangeRangeDate}
-                        />                     
+                        />
                       </Col>
                     </InputGroup>
-                  
+
                    <Button type="primary" style={margin, button_width} onClick={this.filter_orders}>
                       {"Apply Filter"}
+                    </Button>
+                    <Button type="sucess" style={margin, button_width} onClick={this.generate_bill}>
+                      {"Print Bill"}
                     </Button>
 
                 </Col>
@@ -738,22 +867,95 @@ export default class InputField extends Component {
             >
               <ContentHolder>
 
+
+              <div>
+                <Col span="1">
+                  <span> </span>
+                </Col>
+                <Col span="3">
+                  <span> Total Entry </span>
+                </Col>
+                <Col span="8">
+                  <span>  {this.state.total_count}  </span>
+                </Col>
+              </div>
+
+              <div>
+                <Col span="1">
+                  <span> </span>
+                </Col>
+                <Col span="3">
+                  <span> Total Freight </span>
+                </Col>
+                <Col span="8">
+                  <span>  {this.state.total_freight}  </span>
+                </Col>
+              </div>
+
+              <div>
+                <Col span="1">
+                  <span> </span>
+                </Col>
+                <Col span="3">
+                  <span> Total Advanced </span>
+                </Col>
+                <Col span="8">
+                  <span>  {this.state.total_advanced}  </span>
+                </Col>
+              </div>
+
+              <div>
+                <Col span="1">
+                  <span> </span>
+                </Col>
+                <Col span="3">
+                  <span> Total Amount </span>
+                </Col>
+                <Col span="8">
+                  <span>  {this.state.total_amount}  </span>
+                </Col>
+              </div>
+
+              <div>
+                <Col span="1">
+                  <span> </span>
+                </Col>
+                <Col span="3">
+                  <span> Total Liftoff </span>
+                </Col>
+                <Col span="8">
+                  <span>  {this.state.total_liftoff}  </span>
+                </Col>
+              </div>
+
+              <div>
+                <Col span="1">
+                  <span> </span>
+                </Col>
+                <Col span="3">
+                  <span> Total Net Amount </span>
+                </Col>
+                <Col span="8">
+                  <span>  {this.state.total_net_amount}  </span>
+                </Col>
+              </div>
+
+
               <Row style={rowStyle} gutter={gutter} justify="start">
                 <Col md={24} sm={24} xs={24} style={colStyle}>
                   <Box>
                     <ContentHolder>
 
-                                
                     <Table
                       columns={columns}
                       expandedRowRender={
-                        record => 
+                        record =>
 
                               <div>
 
                                   <Row style={rowStyle} gutter={gutter} justify="start">
                                     <Col md={12} sm={12} xs={24} style={colStyle}>
- 
+
                                       <div>
                                         <Col span="6">
                                           <span> Package </span>
@@ -768,7 +970,9 @@ export default class InputField extends Component {
                                           <span> Container </span>
                                         </Col>
                                         <Col span="18">
-                                          <span>  {record.container_number}  </span>
+                                          <span>  {record.container_number}
+                                            {record.container_number == "" && " -- "}
+                                           </span>
                                         </Col>
                                       </div>
 
@@ -777,16 +981,9 @@ export default class InputField extends Component {
                                           <span> LR </span>
                                         </Col>
                                         <Col span="18">
-                                          <span>  {record.lr_number}  </span>
-                                        </Col>
-                                      </div>
-
-                                      <div>
-                                        <Col span="6">
-                                          <span> Date </span>
-                                        </Col>
-                                        <Col span="18">
-                                          <span>  {record.order_date}  </span>
+                                          <span>  {record.lr_number}
+                                            {record.lr_number == "" && " -- "}
+                                           </span>
                                         </Col>
                                       </div>
 
@@ -804,10 +1001,10 @@ export default class InputField extends Component {
 
                                       <div>
                                         <Col span="6">
-                                          <span> Overload </span>
+                                          <span> Advanced </span>
                                         </Col>
                                         <Col span="18">
-                                          <span>  {record.overload}  </span>
+                                          <span>  {record.advanced}  </span>
                                         </Col>
                                       </div>
 
@@ -820,32 +1017,7 @@ export default class InputField extends Component {
                                         </Col>
                                       </div>
 
-                                      <div>
-                                        <Col span="6">
-                                          <span> Advanced </span>
-                                        </Col>
-                                        <Col span="18">
-                                          <span>  {record.advanced}  </span>
-                                        </Col>
-                                      </div>
 
-                                      <div>
-                                        <Col span="6">
-                                          <span> Diesel </span>
-                                        </Col>
-                                        <Col span="18">
-                                          <span>  {record.diesel}  </span>
-                                        </Col>
-                                      </div>
-
-                                      <div>
-                                        <Col span="6">
-                                          <span> Tds </span>
-                                        </Col>
-                                        <Col span="18">
-                                          <span>  {record.tds}  </span>
-                                        </Col>
-                                      </div>
                                     </Col>
                                   </Row>
 
@@ -873,3 +1045,32 @@ export default class InputField extends Component {
 
 
 
+
+
+
+  // <div>
+  //   <Col span="6">
+  //     <span> Overload </span>
+  //   </Col>
+  //   <Col span="18">
+  //     <span>  {record.overload}  </span>
+  //   </Col>
+  // </div>
+
+  // <div>
+  //   <Col span="6">
+  //     <span> Diesel </span>
+  //   </Col>
+  //   <Col span="18">
+  //     <span>  {record.diesel}  </span>
+  //   </Col>
+  // </div>
+
+  // <div>
+  //   <Col span="6">
+  //     <span> Tds </span>
+  //   </Col>
+  //   <Col span="18">
+  //     <span>  {record.tds}  </span>
+  //   </Col>
+  // </div>

@@ -59,12 +59,12 @@ class BillDetail(models.Model):
 	lr_number = models.TextField(max_length = 50, default="NILL", blank=True)
 
 	freight = models.FloatField(default=0)
-	overload = models.FloatField(default=0) # extra rate + 
-	liftoff = models.FloatField(default=0)  # container charge + 
+	overload = models.FloatField(default=0) # extra rate +
+	liftoff = models.FloatField(default=0)  # container charge +
 	advanced = models.FloatField(default=0) # company e aapel kharcho -
 	diesel = models.FloatField(default=0)   # company e aapel diesel kharcho -
 	tds = models.FloatField(default=0)
 	balance = models.FloatField(default=0)  # freight + overload + liftoff - advanced - diesel - tds
-	
+
 	def __str__(self):
 		return str(self.company_name)

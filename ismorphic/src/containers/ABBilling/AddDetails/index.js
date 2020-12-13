@@ -17,7 +17,61 @@ import ContentHolder from '../../../components/utility/contentHolder';
 import IntlMessages from '../../../components/utility/intlMessages';
 import { rtl } from '../../../config/withDirection';
 
+/////// MODAL  ///////////
+
+import Modals from '../../../components/feedback/modal';
+import ModalStyle, { ModalContent } from './modal.style';
+
+function info() {
+  Modals.info({
+    title: <h3>Success</h3>,
+    content: (
+      <ModalContent>
+        <p>
+          Item Added
+        </p>
+      </ModalContent>
+    ),
+    onOk() {},
+    okText: 'OK',
+    cancelText: 'Cancel',
+  });
+}
+
+function success() {
+  Modals.success({
+    title: 'Success',
+    content:
+      'item added',
+    okText: 'OK',
+    cancelText: 'Cancel',
+  });
+}
+
+function error() {
+  Modals.error({
+    title: 'Error',
+    content:
+      'item not added check it',
+    okText: 'OK',
+    cancelText: 'Cancel',
+  });
+}
+
+function warning() {
+  Modals.warning({
+    title: 'This is a warning message',
+    content:
+      'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.',
+    okText: 'OK',
+    cancelText: 'Cancel',
+  });
+}
+
+///////////////////////////////
+
 const Option = SelectOption;
+
 
 export default class InputField extends Component {
 
@@ -34,13 +88,12 @@ export default class InputField extends Component {
           CityDetailValue:"",
           PackageDetailValue:"",
           OrderTypeValue:"",
-          
+
           SelectCustomerCompanyDetailValue:"",
           SelectTruckDetailValue:"",
           SelectCityDetailValue:"",
           SelectPackageDetailValue:"",
           SelectOrderTypeValue:"",
-
       }
 
 
@@ -117,8 +170,10 @@ export default class InputField extends Component {
         body: JSON.stringify(data)
     }).then((response) => {
         this.fetchAllDetails()
+        success()
     }).catch(function(error) {
         console.log('ERROR:', error)
+        error()
     })
   }
 
@@ -134,7 +189,7 @@ export default class InputField extends Component {
   }
 
   AddTruckDetailValue(){
-    var value = this.state.TruckDetailValue  
+    var value = this.state.TruckDetailValue
     var url = `http://127.0.0.1:8000/api/truckdetail/`;
 
     var data = {
@@ -237,7 +292,7 @@ export default class InputField extends Component {
   }
 
   DeleteTruckDetailValue(){
-    var value = this.state.SelectTruckDetailValue  
+    var value = this.state.SelectTruckDetailValue
 
     var data = {}
     this.DeleteApi(value, data)
@@ -296,10 +351,10 @@ export default class InputField extends Component {
                   <Col span="3">
                     <span> Company Name </span>
                   </Col>
-                  <Select 
+                  <Select
                       showSearch
                       optionFilterProp="children"
-                      defaultValue="nill" 
+                      defaultValue="nill"
                       name="SelectCustomerCompanyDetailValue"
                       onChange={this.handleChangeSelectValue_Company}
                       style={{ width: '33.4%' }}
@@ -329,10 +384,10 @@ export default class InputField extends Component {
                   <Col span="3">
                     <span> Truck Number </span>
                   </Col>
-                  <Select  
+                  <Select
                       showSearch
                       optionFilterProp="children"
-                      defaultValue="nill" 
+                      defaultValue="nill"
                       name="SelectTruckDetailValue"
                       onChange={this.handleChangeSelectValue_Truck}
                       style={{ width: '33.4%' }}>
@@ -361,10 +416,10 @@ export default class InputField extends Component {
                   <Col span="3">
                     <span> Package Size </span>
                   </Col>
-                  <Select  
+                  <Select
                       showSearch
                       optionFilterProp="children"
-                      defaultValue="40" 
+                      defaultValue="40"
                       name="SelectPackageDetailValue"
                       onChange={this.handleChangeSelectValue_Package}
                       style={{ width: '33.4%' }}>
@@ -393,10 +448,10 @@ export default class InputField extends Component {
                   <Col span="3">
                     <span> City </span>
                   </Col>
-                  <Select  
+                  <Select
                       showSearch
                       optionFilterProp="children"
-                      defaultValue="nill" 
+                      defaultValue="nill"
                       name="SelectCityDetailValue"
                       onChange={this.handleChangeSelectValue_City}
                       style={{ width: '33.4%' }}>
@@ -425,10 +480,10 @@ export default class InputField extends Component {
                   <Col span="3">
                     <span> Order Type </span>
                   </Col>
-                  <Select  
+                  <Select
                       showSearch
                       optionFilterProp="children"
-                      defaultValue="nill" 
+                      defaultValue="nill"
                       name="SelectOrderTypeValue"
                       onChange={this.handleChangeSelectValue_Order}
                       style={{ width: '33.4%' }}>
