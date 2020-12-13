@@ -61,6 +61,7 @@ export default class InputField extends Component {
 
 
         this.AddNewOrder = this.AddNewOrder.bind(this)
+        this.TakeBackup = this.TakeBackup.bind(this)
         this.handleChangeInputValue_order_detail = this.handleChangeInputValue_order_detail.bind(this)
         this.handleChangeInputValue = this.handleChangeInputValue.bind(this)
         this.handleChangeDateValue = this.handleChangeDateValue.bind(this)
@@ -239,7 +240,6 @@ export default class InputField extends Component {
     }
 
     AddNewOrder(e) {
-
         console.log(this.state)
         e.preventDefault();
 
@@ -277,6 +277,40 @@ export default class InputField extends Component {
             document.getElementById("submit_button").disabled = "true"
         })
     }
+
+    TakeBackup(){
+        var csrftoken = this.getCookie('csrftoken')
+        var url = `http://127.0.0.1:8000/api/take-backup/`;
+
+        var data = {}
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify(data)
+        }).then((response) => {
+            if(response['status'] == 201){
+                document.getElementById("backup_button").style.background = "orange"
+                document.getElementById("backup_button").childNodes[0].innerHTML = "Done"
+                setTimeout( () => {
+                    document.getElementById("backup_button").style.background = "purple"
+                    document.getElementById("backup_button").childNodes[0].innerHTML = "Take Order"
+                }, 1500)
+            }else{
+                document.getElementById("backup_button").style.background = "red"
+                document.getElementById("backup_button").childNodes[0].innerHTML = "Fail"
+                document.getElementById("backup_button").disabled = "true"
+            }
+        }).catch(function(error) {
+            document.getElementById("backup_button").style.background = "red"
+            document.getElementById("backup_button").childNodes[0].innerHTML = "Fail"
+            document.getElementById("backup_button").disabled = "true"
+        })
+    }
+
 
     handleChangeInputValue(evt) {
         const value = evt.target.value;
@@ -616,6 +650,12 @@ export default class InputField extends Component {
 
                     <Button id="submit_button" type="primary" style={margin, button_width, {background: "blue"}} onClick={this.AddNewOrder}>
                       {"Add Order"}
+                    </Button>
+
+
+
+                    <Button id="backup_button" type="success" style={margin, button_width, {background: "purple", color: "white"}} onClick={this.TakeBackup}>
+                      {"Take Backup"}
                     </Button>
 
 

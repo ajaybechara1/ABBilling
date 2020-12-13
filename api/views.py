@@ -94,6 +94,24 @@ def AddNewOrder(request):
 		print(str(e), str(exc_tb.tb_lineno))
 		return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def TakeBackup(request):
+	try:
+		import shutil
+
+		original = r'db.sqlite3'
+
+		d = datetime.datetime.now()
+		file_name = d.strftime("%d-%B-%Y_%I:%M_%p_%A") + "_db"
+		file_name = "files/backup/" + file_name + ".sqlite3"
+
+		shutil.copyfile(original, file_name)
+
+		return Response({}, status=status.HTTP_201_CREATED)
+	except Exception as e:
+		exc_type, exc_obj, exc_tb = sys.exc_info()
+		print(str(e), str(exc_tb.tb_lineno))
+		return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def AddNewOrder2(request):
